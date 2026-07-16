@@ -432,7 +432,7 @@ jobs:
         echo "build_time=$(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
         echo "tag=$(date '+%Y-%m-%d')" >> $GITHUB_ENV
     - name : Upload packages
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: MSG1500-7615
