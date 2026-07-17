@@ -472,6 +472,9 @@ if (found_app_alist()){
 if (found_app_cloudflare()){
 	tabtitle[30] = new Array("", "CF域名解析");
 }
+if (found_app_npc()){
+	tabtitle[31] = new Array("", "Npc服务");
+}
 
 //Level 3 Tab title
 
@@ -584,6 +587,10 @@ if (found_app_cloudflare()){
 	cloudflare_array = new Array("","Advanced_cloudflare.asp");
 	tablink[30] = (cloudflare_array);
 }
+if (found_app_npc()){
+	npc_array = new Array("","Advanced_npc.asp");
+	tablink[31] = (npc_array);
+}
 
 //Level 2 Menu
 menuL2_title = new Array(23)
@@ -682,6 +689,10 @@ if (found_app_cloudflare()){
 	menuL2_title.push("CF域名解析");
 } else menuL2_title.push("");
 
+if (found_app_npc()){
+	menuL2_title.push("Npc服务");
+} else menuL2_title.push("");
+
 menuL2_link  = new Array("", tablink[0][1], tablink[1][1], tablink[2][1], tablink[3][1], tablink[4][1], tablink[5][1], tablink[6][1], tablink[7][1], support_2g_radio() ? tablink[8][1] : "Main_EStatus_Content.asp", tablink[9][1]);
 if (found_app_scutclient()){
 	menuL2_link.push(scutclient_array[1]);
@@ -758,6 +769,10 @@ if (found_app_alist()){
 } else menuL2_link.push("");
 if (found_app_cloudflare()){
 	menuL2_link.push(cloudflare_array[1]);
+} else menuL2_link.push("");
+
+if (found_app_npc()){
+	menuL2_link.push(npc_array[1]);
 } else menuL2_link.push("");
 
 //Level 1 Menu in Gateway, Router mode
