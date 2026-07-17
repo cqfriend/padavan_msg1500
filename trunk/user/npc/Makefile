@@ -1,30 +1,21 @@
 THISDIR := $(shell pwd)
-NPC_VER := 0.26.10
-NPC__URL_BASE := https://github.com/ehang-io/nps/releases/download
+NPC_URL := https://github.com/cqfriend/padavan_msg1500/raw/refs/heads/main/npc
 
-NPC_NAME := linux_mipsle_client
-NPC_URL := $(NPC__URL_BASE)/v$(NPC_VER)/$(NPC_NAME).tar.gz
-
-all: download_test extra_test
+all: download_test
 	@echo "npc build done!"
 
 download_test:
-	( if [ ! -f $(NPC_NAME).tar.gz ]; then \
-		wget -t5 --timeout=20 --no-check-certificate -O $(NPC_NAME).tar.gz $(NPC_URL); \
-	fi )
-
-extra_test:
-	( if [ ! -d $(NPC_NAME) ]; then \
-		mkdir $(NPC_NAME); \
-		tar xf $(NPC_NAME).tar.gz -C $(NPC_NAME); \
+	( if [ ! -f npc_bin ]; then \
+		wget -t5 --timeout=20 --no-check-certificate -O npc_bin $(NPC_URL); \
+		upx --lzma --best npc_bin || true; \
 	fi )
 
 clean:
-	rm -rf $(NPC_NAME).tar.gz $(NPC_NAME)
+	rm -f npc_bin
 
 romfs:
 ifeq ($(CONFIG_FIRMWARE_INCLUDE_NPC),y)
-	$(ROMFSINST) -p +x $(THISDIR)/$(NPC_NAME)/npc /usr/bin/npc
+	$(ROMFSINST) -p +x $(THISDIR)/npc_bin /usr/bin/npc
 endif
 	$(ROMFSINST) -p +x $(THISDIR)/npc.sh /usr/bin/npc.sh
 	$(ROMFSINST) /etc_ro/npc_script.sh

@@ -40,7 +40,7 @@ if [ "$npc_enable" = "1" ] ; then
 	npc_bin="/usr/bin/npc"
 	if [ ! -f "$npc_bin" ]; then
 		if [ ! -f "/tmp/npc/npc" ];then
-			wget -c -P /tmp/npc https://github.com/etion2008/aaron/raw/main/npc/npc
+			wget -c -P /tmp/npc https://github.com/cqfriend/padavan_msg1500/raw/refs/heads/main/npc
 			if [ ! -f "/tmp/npc/npc" ]; then
 				logger -t "NPC" "npc二进制文件下载失败，可能是地址失效或者网络异常！"
 				nvram set npc_enable=0
