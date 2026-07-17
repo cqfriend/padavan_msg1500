@@ -82,6 +82,7 @@ typedef u_int8_t u8;
 #define EVM_RESTART_SMBD			(1ULL << 37)
 //如果你要修改的话 请注意后面的序号，每个插件对应的序号不能相同  不能超过63 你可以删掉不需要的 把序号给你需要的插件
 		//#define EVM_RESTART_NFSD			(1ULL << 38)
+#define EVM_RESTART_NPC				(1ULL << 38)
 
 		//Minidlna UPnP 媒体服务器
 		#define EVM_RESTART_DMS				(1ULL << 39)
@@ -188,6 +189,7 @@ typedef u_int8_t u8;
 #define EVT_RESTART_ZEROTIER     	2
 #define EVT_RESTART_NVPPROXY     	2
 #define EVT_RESTART_DDNSTO      	2
+#define EVT_RESTART_NPC      		2
 #define EVT_RESTART_ALDRIVER     	2
 #define EVT_RESTART_WIREGUARD     	2
 #define EVT_RESTART_UUPLUGIN    	2
