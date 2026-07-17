@@ -29,3 +29,4 @@ ifeq ($(CONFIG_FIRMWARE_INCLUDE_NPC),y)
 endif
 	$(ROMFSINST) -p +x $(THISDIR)/npc.sh /usr/bin/npc.sh
 	$(ROMFSINST) /etc_ro/npc_script.sh
+	$(ROMFSINST) /etc_ro/npc.conf

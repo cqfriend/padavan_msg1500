@@ -107,3 +107,12 @@ mkdir -p /etc/storage/gfwlist
 cp -rf /etc_ro/gfwlist_list.conf /etc/storage/gfwlist/
 chmod 755 "/etc/storage/gfwlist/gfwlist_list.conf"
 fi
+
+if [ ! -f "/etc/storage/npc_script.sh" ] ; then
+cp -rf /etc_ro/npc_script.sh /etc/storage/
+chmod 755 "/etc/storage/npc_script.sh"
+fi
+if [ ! -f "/etc/storage/npc.conf" ] ; then
+cp -rf /etc_ro/npc.conf /etc/storage/
+chmod 644 "/etc/storage/npc.conf"
+fi
