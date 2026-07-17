@@ -47,18 +47,20 @@ jobs:
         sh dl_toolchain.sh > /dev/null
     - name: 修改配置&开始编译
       run: |
-        cwd=`pwd`
-        CONFIG_TOOLCHAIN_DIR=${cwd//\//\\\/}\\/toolchain-mipsel
-        sed -i "s/^CONFIG_TOOLCHAIN_DIR=.*$/CONFIG_TOOLCHAIN_DIR=${CONFIG_TOOLCHAIN_DIR}/g" config/${{ github.event.inputs.production }}.config
-        cp -f ./versions.inc $TRUNK
-        cp -f ./defaults.h $TRUNK/user/shared
-        cp -f config/${{ github.event.inputs.production }}.config $TRUNK/configs/templates
+        # 1. 直接复制模板配置文件到 .config
+        cp -f $TRUNK/configs/templates/${{ github.event.inputs.production }}.config $TRUNK/.config
+        
+        # 2. 设置正确的工具链路径（指向 /opt/rt-n56u/toolchain-mipsel）
+        CONFIG_TOOLCHAIN_DIR="\/opt\/rt-n56u\/toolchain-mipsel"
+        sed -i "s/^CONFIG_TOOLCHAIN_DIR=.*$/CONFIG_TOOLCHAIN_DIR=${CONFIG_TOOLCHAIN_DIR}/g" $TRUNK/.config
+        
+        # 3. 修改底栏显示信息并开始编译
         cd $TRUNK
         valtime="\\1 footer_code +='编译日期: ${{ env.DATE }} by <a href=\"$URL1\" target=\"blank\">WELN</a> \& <a href=\"$URL2\" target=\"blank\">恩山论坛</a> \& <a href=\"${{ github.event.inputs.cloneurl }}\" target=\"blank\">源代码</a><br>';"
         sed -i "s#\(.*Non-Commercial Use Only[^;]*;\).*#$valtime#" user/www/n56u_ribbon_fixed/state.js
         echo "::group::开始编译 ${{ github.event.inputs.production }}..."
         sudo ./clear_tree || echo
-        sudo ./build_firmware_modify ${{ github.event.inputs.production }} > /dev/null
+        sudo ./build_firmware_modify ${{ github.event.inputs.production }} 0 > /dev/null
         ls -l images
         sudo mv -f images/*.trx $IMAGES
         echo "::endgroup::"
