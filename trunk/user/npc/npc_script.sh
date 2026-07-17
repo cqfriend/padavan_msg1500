@@ -1,4 +1,4 @@
-﻿#!/bin/sh
+#!/bin/sh
 #from aaron
 killall npc
 mkdir -p /tmp/npc
@@ -18,22 +18,26 @@ compress=`nvram get npc_compress`
 crypt=`nvram get npc_crypt`
 Log_level=`nvram get npc_log_level`
 
-echo "[common]" >$tmpconf
-echo "server_addr=$server_addr:$server_port" >>$tmpconf
-echo "conn_type=$protocol" >>$tmpconf
-echo "vkey=$vkey" >>$tmpconf
-echo "auto_reconnection=true" >>$tmpconf
-
-if [ "$compress" = "1" ] ; then
-	echo "compress=true" >>$tmpconf
+if [ -s "/etc/storage/npc.conf" ] ; then
+	cp -f /etc/storage/npc.conf $tmpconf
 else
-	echo "compress=false" >>$tmpconf
-fi
+	echo "[common]" >$tmpconf
+	echo "server_addr=$server_addr:$server_port" >>$tmpconf
+	echo "conn_type=$protocol" >>$tmpconf
+	echo "vkey=$vkey" >>$tmpconf
+	echo "auto_reconnection=true" >>$tmpconf
 
-if [ "$crypt" = "1" ] ; then
-	echo "crypt=true" >>$tmpconf
-else
-	echo "crypt=false" >>$tmpconf
+	if [ "$compress" = "1" ] ; then
+		echo "compress=true" >>$tmpconf
+	else
+		echo "compress=false" >>$tmpconf
+	fi
+
+	if [ "$crypt" = "1" ] ; then
+		echo "crypt=true" >>$tmpconf
+	else
+		echo "crypt=false" >>$tmpconf
+	fi
 fi
 
 if [ "$npc_enable" = "1" ] ; then

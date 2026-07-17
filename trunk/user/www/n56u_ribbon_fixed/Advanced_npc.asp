@@ -53,6 +53,7 @@ showhide_div('frplink', found_app_frp());
 
 function textarea_scripts_enabled(v){
 	inputCtrl(document.form['scripts.npc_script.sh'], v);
+	inputCtrl(document.form['scripts.npc.conf'], v);
 }
 function fill_status(status_code){
 	var stext = "Unknown";
@@ -238,6 +239,14 @@ function change_npc_enable_bridge(mflag){
 													<option value="4" <% nvram_match_x("","npc_log_level", "4","selected"); %>>Warning</option>
 													<option value="7" <% nvram_match_x("","npc_log_level", "7","selected"); %>>Debug</option>
 												</select>
+											</td>
+										</tr>
+										<tr id="row_npc_conf">
+											<td colspan="2">
+												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script3')"><span>点这里自定义 npc 客户端配置 (npc.conf)</span></a>
+												<div id="script3">
+													<textarea rows="10" wrap="off" spellcheck="false" maxlength="314571" class="span12" name="scripts.npc.conf" style="font-family:'Courier New'; font-size:12px;"><% nvram_dump("scripts.npc.conf",""); %></textarea>
+												</div>
 											</td>
 										</tr>
 										<tr id="row_post_wan_script">
