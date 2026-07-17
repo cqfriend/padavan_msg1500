@@ -600,7 +600,7 @@ void restart_vntcli(void){
 }
 #endif
 
-/*#if defined(APP_NPC)
+#if defined(APP_NPC)
 void stop_npc(void){
 	eval("/usr/bin/npc.sh","stop");
 }
@@ -613,7 +613,7 @@ void restart_npc(void){
 	stop_npc();
 	start_npc();
 }
-#endif*/
+#endif
 #if defined(APP_LUCKY)
 void stop_lucky(void){
 	eval("/usr/bin/lucky.sh","stop");
@@ -1078,9 +1078,9 @@ stop_services(int stopall)
 #if defined(APP_NATPIERCE)
 	stop_natpierce();
 #endif
-/*#if defined(APP_NPC)
+#if defined(APP_NPC)
 	stop_npc();
-#endif*/
+#endif
 #if defined(APP_LUCKY)
 	stop_lucky();
 #endif

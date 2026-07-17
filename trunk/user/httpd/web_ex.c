@@ -2356,14 +2356,14 @@ static int vntcli_status_hook(int eid, webs_t wp, int argc, char **argv)
 }
 #endif
 
-/*#if defined (APP_NPC)
+#if defined (APP_NPC)
 static int npc_status_hook(int eid, webs_t wp, int argc, char **argv)
 {
 	int npc_status_code = pids("npc");
 	websWrite(wp, "function npc_status() { return %d;}\n", npc_status_code);
 	return 0;
 }
-#endif*/
+#endif
 #if defined (APP_LUCKY)
 static int lucky_status_hook(int eid, webs_t wp, int argc, char **argv)
 {
@@ -2753,11 +2753,11 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 #else
 	int found_app_wxsend = 0;
 #endif
-/*#if defined(APP_NPC)
+#if defined(APP_NPC)
 	int found_app_npc = 1;
 #else
 	int found_app_npc = 0;
-#endif*/
+#endif
 #if defined(APP_ALIDDNS)
 	int found_app_aliddns = 1;
 #else
@@ -3021,7 +3021,7 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 		found_app_smartdns,
 		found_app_frp,
 		found_app_nvpproxy,
-		0,
+		found_app_npc,
 		found_app_wyy,
 		found_app_zerotier,
 		found_app_ddnsto,
@@ -5257,9 +5257,9 @@ struct ej_handler ej_handlers[] =
 #if defined (APP_NVPPROXY)
 	{ "nvpproxy_status", nvpproxy_status_hook},
 #endif
-/*#if defined (APP_NPC)
+#if defined (APP_NPC)
 	{ "npc_status", npc_status_hook},
-#endif*/
+#endif
 #if defined (APP_LUCKY)
 	{ "lucky_status", lucky_status_hook},
 #endif
