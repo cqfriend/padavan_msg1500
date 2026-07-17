@@ -1049,6 +1049,7 @@
 #if defined(APP_NPC)
 	struct variable variables_NpcConf[] = {
 			{"npc_enable", "", NULL, EVM_RESTART_NPC},
+			{"npc_v", "", NULL, EVM_RESTART_NPC},
 			{"npc_server_addr", "", NULL, EVM_RESTART_NPC},
 			{"npc_server_port", "", NULL, EVM_RESTART_NPC},
 			{"npc_protocol", "", NULL, EVM_RESTART_NPC},

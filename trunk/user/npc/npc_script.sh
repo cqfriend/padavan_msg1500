@@ -42,20 +42,38 @@ fi
 
 if [ "$npc_enable" = "1" ] ; then
 	npc_bin="/usr/bin/npc"
-	if [ ! -f "$npc_bin" ]; then
-		if [ ! -f "/tmp/npc/npc" ];then
-			wget -c -P /tmp/npc https://github.com/cqfriend/padavan_msg1500/raw/refs/heads/main/npc
-			if [ ! -f "/tmp/npc/npc" ]; then
-				logger -t "NPC" "npc二进制文件下载失败，可能是地址失效或者网络异常！"
-				nvram set npc_enable=0
-				npc_close
-			else
-				logger -t "NPC" "npc二进制文件下载成功"
-				chmod -R 777 /tmp/npc/npc
-				npc_bin="/tmp/npc/npc"
-			fi
-		else
+	npc_v=`nvram get npc_v`
+	if [ ! -z "$npc_v" ] ; then
+		if [ -f "/tmp/npc/npc" ] && [ "`cat /tmp/npc/npc_version 2>/dev/null`" = "$npc_v" ] ; then
 			npc_bin="/tmp/npc/npc"
+		else
+			logger -t "NPC" "正在下载指定版本 $npc_v npc客户端..."
+			rm -rf /tmp/npc
+			mkdir -p /tmp/npc
+			wget -t5 --timeout=20 --no-check-certificate -O /tmp/npc/npc.tar.gz "https://github.com/yisier/nps/releases/download/v${npc_v}/linux_mipsle_client.tar.gz"
+			if [ "$?" = "0" ] ; then
+				tar -xzf /tmp/npc/npc.tar.gz -C /tmp/npc
+				chmod +x /tmp/npc/npc
+				echo "$npc_v" > /tmp/npc/npc_version
+				npc_bin="/tmp/npc/npc"
+				logger -t "NPC" "指定版本 $npc_v npc客户端下载成功并已解压。"
+			else
+				logger -t "NPC" "指定版本 $npc_v npc客户端下载失败，将使用系统内置版本！"
+			fi
+		fi
+	fi
+
+	if [ ! -f "$npc_bin" ] ; then
+		logger -t "NPC" "未找到 npc 客户端，尝试下载默认版本..."
+		mkdir -p /tmp/npc
+		wget -t5 --timeout=20 --no-check-certificate -O /tmp/npc/npc.tar.gz "https://github.com/yisier/nps/releases/download/v0.26.36/linux_mipsle_client.tar.gz"
+		if [ "$?" = "0" ] ; then
+			tar -xzf /tmp/npc/npc.tar.gz -C /tmp/npc
+			chmod +x /tmp/npc/npc
+			npc_bin="/tmp/npc/npc"
+		else
+			logger -t "NPC" "下载默认客户端失败，无法启动！"
+			exit 1
 		fi
 	fi
 

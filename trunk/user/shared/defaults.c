@@ -994,6 +994,7 @@ struct nvram_pair router_defaults[] = {
 
 #if defined(APP_NPC)
 	{ "npc_enable", "0" },
+	{ "npc_v", "" },
 	{ "npc_server_addr", "127.0.0.1" },
 	{ "npc_server_port", "8024" },
 	{ "npc_protocol", "tcp"  },
