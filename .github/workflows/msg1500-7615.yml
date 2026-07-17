@@ -366,7 +366,7 @@ jobs:
         echo "CONFIG_FIRMWARE_INCLUDE_NANO=y" >> .config
 
          ## iperf3测速软件
-        echo "CONFIG_FIRMWARE_INCLUDE_IPERF3=y" >> .config
+        echo "CONFIG_FIRMWARE_INCLUDE_IPERF3=n" >> .config
 
         ## DUMP1090
         echo "CONFIG_FIRMWARE_INCLUDE_DUMP1090=y" >> .config
@@ -388,7 +388,7 @@ jobs:
 
         ##################################
 
-        echo "CONFIG_FIRMWARE_INCLUDE_FRPC=y" >> .config  ## FRPC 客户端 约8k
+        echo "CONFIG_FIRMWARE_INCLUDE_FRPC=n" >> .config  ## FRPC 客户端 约8k
         echo "CONFIG_FIRMWARE_INCLUDE_NPC=y" >> .config  ## npc 客户端 约8M
         echo "CONFIG_FIRMWARE_INCLUDE_WIREGUARD=n" >> .config  ## wireguard 约1M
         echo "CONFIG_FIRMWARE_INCLUDE_TUNSAFE=n" >> .config ## tunsafe（wireguard的TCP方式）
@@ -403,7 +403,7 @@ jobs:
         echo "CONFIG_FIRMWARE_INCLUDE_LUCKY=n" >> .config #LUCKY 约50k
         echo "CONFIG_FIRMWARE_INCLUDE_CLOUDFLARE=n" >> .config #CF-ddns 约50k
         
-        echo "CONFIG_FIRMWARE_INCLUDE_ALIST=y" >> .config #ALIST文件列表 约80k
+        echo "CONFIG_FIRMWARE_INCLUDE_ALIST=n" >> .config #ALIST文件列表 约80k
         echo "CONFIG_FIRMWARE_INCLUDE_WXSEND=n" >> .config #微信推送 约50k
         echo "CONFIG_FIRMWARE_INCLUDE_UUPLUGIN=n" >> .config #网易UU加速器 约50k
         echo "CONFIG_FIRMWARE_INCLUDE_ALDRIVER=n" >> .config #阿里云盘 约50k
