@@ -251,7 +251,7 @@ jobs:
         echo "CONFIG_FIRMWARE_INCLUDE_FTPD=n" >> .config
 
         ##包含替代的 L2TP 控制客户端 RP-L2TP。约 0.1MB
-        echo "CONFIG_FIRMWARE_INCLUDE_RPL2TP=n" >> .config
+        echo "CONFIG_FIRMWARE_INCLUDE_RPL2TP=y" >> .config
 
         ##包含 EAP-TTLS 和 EAP-PEAP 认证支持。openssl 约 1.2MB，wpa_supplicant 约 0.04MB
         echo "CONFIG_FIRMWARE_INCLUDE_EAP_PEAP=n" >> .config
