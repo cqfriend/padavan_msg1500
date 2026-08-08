@@ -18,28 +18,6 @@ compress=`nvram get npc_compress`
 crypt=`nvram get npc_crypt`
 Log_level=`nvram get npc_log_level`
 
-if [ -s "/etc/storage/npc.conf" ] ; then
-	cp -f /etc/storage/npc.conf $tmpconf
-else
-	echo "[common]" >$tmpconf
-	echo "server_addr=$server_addr:$server_port" >>$tmpconf
-	echo "conn_type=$protocol" >>$tmpconf
-	echo "vkey=$vkey" >>$tmpconf
-	echo "auto_reconnection=true" >>$tmpconf
-
-	if [ "$compress" = "1" ] ; then
-		echo "compress=true" >>$tmpconf
-	else
-		echo "compress=false" >>$tmpconf
-	fi
-
-	if [ "$crypt" = "1" ] ; then
-		echo "crypt=true" >>$tmpconf
-	else
-		echo "crypt=false" >>$tmpconf
-	fi
-fi
-
 if [ "$npc_enable" = "1" ] ; then
 	npc_bin="/usr/bin/npc"
 	npc_v=`nvram get npc_v`
@@ -74,6 +52,29 @@ if [ "$npc_enable" = "1" ] ; then
 		else
 			logger -t "NPC" "下载默认客户端失败，无法启动！"
 			exit 1
+		fi
+	fi
+
+	mkdir -p /tmp/npc
+	if [ -s "/etc/storage/npc.conf" ] && grep -q "server_addr" /etc/storage/npc.conf 2>/dev/null ; then
+		cp -f /etc/storage/npc.conf $tmpconf
+	else
+		echo "[common]" >$tmpconf
+		echo "server_addr=$server_addr:$server_port" >>$tmpconf
+		echo "conn_type=$protocol" >>$tmpconf
+		echo "vkey=$vkey" >>$tmpconf
+		echo "auto_reconnection=true" >>$tmpconf
+
+		if [ "$compress" = "1" ] ; then
+			echo "compress=true" >>$tmpconf
+		else
+			echo "compress=false" >>$tmpconf
+		fi
+
+		if [ "$crypt" = "1" ] ; then
+			echo "crypt=true" >>$tmpconf
+		else
+			echo "crypt=false" >>$tmpconf
 		fi
 	fi
 
