@@ -11,7 +11,7 @@ env:
   TZ: Asia/Shanghai
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
@@ -22,8 +22,9 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get -y install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd fakeroot \
-        cpio git python-docutils gettext automake autopoint texinfo build-essential help2man \
+        cpio git python3-docutils gettext automake autopoint texinfo build-essential help2man \
         pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget
+        sudo timedatectl set-timezone Asia/Shanghai
     - name: Install UPX
       uses: crazy-max/ghaction-upx@v3
       with:
@@ -37,12 +38,6 @@ jobs:
         cd /opt/rt-n56u/toolchain-mipsel
         sh dl_toolchain.sh
         mkdir -p /opt/images/
-        
-        ##### 修改内存空间和 storage空间10m
-        #sed -i 's/0x200000/0xa00000/g' /opt/rt-n56u/trunk/configs/boards/MI-R3G/kernel-3.4.x.config
-        #sed -i 's/size_etc="6M"/size_etc="10M"/g' /opt/rt-n56u/trunk/user/scripts/dev_init.sh
-        #sed -i 's/size_tmp="24M"/size_tmp="60M"/g' /opt/rt-n56u/trunk/user/scripts/dev_init.sh
-        #sed -i 's/mtd_part_size=65536/mtd_part_size=10485760/g' /opt/rt-n56u/trunk/user/scripts/mtd_storage.sh
     - name: Build Firmware
       env:
         TNAME: RM2100
@@ -54,7 +49,6 @@ jobs:
         exit 1
         fi
         cp -f configs/templates/$TNAME.config .config
-                sed -i 's/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=n/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=y/g' .config
         ################################################################################################
         ###  清除默认配置###
         sed -i '/CONFIG_FIRMWARE_ENABLE_IPV6/d' .config
@@ -187,8 +181,8 @@ jobs:
         ##启用 FUSE（用户空间文件系统）支持。约 0.1MB
         echo "CONFIG_FIRMWARE_ENABLE_FUSE=n" >> .config
 
-        ##启用交换文件/分区支持。约 0.05MB
-        echo "CONFIG_FIRMWARE_ENABLE_SWAP=y" >> .config
+        ##启用交换文件/分区支持。约 0.05MB（RM2100 无 USB 接口，设为 n）
+        echo "CONFIG_FIRMWARE_ENABLE_SWAP=n" >> .config
 
         ##包含 UVC 摄像头模块。约 0.2MB
         echo "CONFIG_FIRMWARE_INCLUDE_UVC=n" >> .config
@@ -215,7 +209,7 @@ jobs:
         echo "CONFIG_FIRMWARE_INCLUDE_IFB=y" >> .config
 
         ##包含 IPSet 工具和内核模块。约 0.4MB
-        #echo "CONFIG_FIRMWARE_INCLUDE_IPSET=y" >> .config
+        echo "CONFIG_FIRMWARE_INCLUDE_IPSET=y" >> .config
 
         ##包含 NFSv3 服务器。约 0.6MB  已删除 /trunk/user/httpd/common.h
         echo "CONFIG_FIRMWARE_INCLUDE_NFSD=n" >> .config
@@ -371,11 +365,11 @@ jobs:
          ## iperf3测速软件
         echo "CONFIG_FIRMWARE_INCLUDE_IPERF3=n" >> .config
 
-        ## DUMP1090
-        echo "CONFIG_FIRMWARE_INCLUDE_DUMP1090=y" >> .config
+        ## DUMP1090（依赖 USB 电视棒，RM2100 无 USB）
+        echo "CONFIG_FIRMWARE_INCLUDE_DUMP1090=n" >> .config
 
-        ## RTL_SDR
-        echo "CONFIG_FIRMWARE_INCLUDE_RTL_SDR=y" >> .config
+        ## RTL_SDR（依赖 USB 电视棒，RM2100 无 USB）
+        echo "CONFIG_FIRMWARE_INCLUDE_RTL_SDR=n" >> .config
 
         ## MTR
         echo "CONFIG_FIRMWARE_INCLUDE_MTR=y" >> .config
@@ -435,7 +429,7 @@ jobs:
         echo "build_time=$(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
         echo "tag=$(date '+%Y-%m-%d')" >> $GITHUB_ENV
     - name : Upload packages
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: MI-RM2100
